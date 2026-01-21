@@ -3,10 +3,5 @@
     "name": "Desconocido",
     "role": "No definido"
   },
-  "history": [
-    {
-      "entidad": "jarvis",
-      "mensaje": "Hola Jarvis, saluda a nico"
-    }
-  ]
+  "history": []
 }

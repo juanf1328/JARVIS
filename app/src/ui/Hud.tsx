@@ -1,6 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import Console from "./Console";
 import Panel from "./Panel";
+import DiagnosticPanel from "./panels/DiagnosticPanel";
+import EnergyPanel from "./panels/EnergyPanel";
+import NetworkPanel from "./panels/NetworkPanel";
+import ProcessPanel from "./panels/ProcessPanel";
+import SecurityPanel from "./panels/SecurityPanel";
 
 interface Message {
   role: "user" | "system";
@@ -12,7 +17,7 @@ const PERSONALIDADES: Record<string, { nombre: string; color: string }> = {
   jarvis: { nombre: "JARVIS", color: "cyan" },
   zero: { nombre: "ZERO", color: "purple" },
   alfred: { nombre: "ALFRED", color: "pink" },
-  horus: { nombre: "HORUS", color: "blue" },
+  horus: { nombre: "HORUS", color: "yellow" },
 };
 
 function animarNombre(targetName: string, setNombre: (n: string) => void) {
@@ -43,8 +48,13 @@ export default function Hud() {
   ]);
 
   const [nombreHUD, setNombreHUD] = useState("JARVIS");
+  const [messageCount, setMessageCount] = useState(0);
   const identidadRef = useRef("jarvis");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMessageCount(messages.length);
+  }, [messages]);
 
   useEffect(() => {
     const ultima = messages[messages.length - 1];
@@ -59,11 +69,12 @@ export default function Hud() {
   }, [messages]);
 
   const currentPersonality = PERSONALIDADES[identidadRef.current];
+  const isHorus = identidadRef.current === "horus";
 
   return (
-    <div className="hud-container">
-      <div className="grid-background" />
-      <div className="radial-overlay" />
+    <div className={`hud-container ${isHorus ? "horus-theme" : ""}`}>
+      <div className={`grid-background ${isHorus ? "horus-grid" : ""}`} />
+      <div className={`radial-overlay ${isHorus ? "horus-radial" : ""}`} />
 
       <div className="hud-content">
         {/* Header */}
@@ -82,9 +93,15 @@ export default function Hud() {
         {/* Main grid */}
         <div className="main-grid">
           {/* Top panels */}
-          <Panel title="SISTEMA" color="cyan" />
-          <Panel title="DIAGNÓSTICO" color="purple" />
-          <Panel title="ENERGÍA" color="pink" />
+          <Panel title="SISTEMA" color="cyan" identity={identidadRef.current}>
+            <div style={{ fontSize: '0.7rem' }}>
+              <div>KERNEL: v4.5.2</div>
+              <div>UPTIME: {Math.floor(Date.now() / 3600000 % 24)}h</div>
+              <div>STATUS: OPERATIONAL</div>
+            </div>
+          </Panel>
+          <DiagnosticPanel identity={identidadRef.current} />
+          <EnergyPanel identity={identidadRef.current} />
 
           {/* Center: Terminal */}
           <div className="terminal-container">
@@ -122,9 +139,9 @@ export default function Hud() {
           </div>
 
           {/* Bottom panels */}
-          <Panel title="RED" color="blue" />
-          <Panel title="PROCESOS" color="violet" />
-          <Panel title="SEGURIDAD" color="pink" />
+          <NetworkPanel identity={identidadRef.current} />
+          <ProcessPanel messageCount={messageCount} identity={identidadRef.current} />
+          <SecurityPanel identity={identidadRef.current} />
         </div>
       </div>
     </div>

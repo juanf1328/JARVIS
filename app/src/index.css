@@ -14,6 +14,8 @@
   --green-400: #4ade80;
   --gray-400: #9ca3af;
   --gray-500: #6b7280;
+  --gold-400: #fbbf24;
+  --gold-500: #f59e0b;
 }
 
 * {
@@ -51,6 +53,12 @@ body {
   background-color: #000000;
   position: relative;
   overflow: hidden;
+  transition: all 0.8s ease;
+}
+
+/* HORUS THEME */
+.hud-container.horus-theme {
+  background: linear-gradient(135deg, #0a0604 0%, #1a0f08 50%, #0a0604 100%);
 }
 
 /* Grid Background */
@@ -63,6 +71,15 @@ body {
     linear-gradient(rgba(34, 211, 238, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
+  transition: all 0.8s ease;
+}
+
+.grid-background.horus-grid {
+  background-image: 
+    linear-gradient(rgba(245, 158, 11, 0.15) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(245, 158, 11, 0.15) 2px, transparent 2px);
+  background-size: 60px 60px;
+  opacity: 0.3;
 }
 
 /* Radial Gradient */
@@ -75,6 +92,16 @@ body {
     rgba(6, 182, 212, 0.15) 0%,
     rgba(0, 0, 0, 0.8) 50%,
     black 100%
+  );
+  transition: all 0.8s ease;
+}
+
+.radial-overlay.horus-radial {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(245, 158, 11, 0.2) 0%,
+    rgba(20, 10, 5, 0.9) 50%,
+    #000000 100%
   );
 }
 
@@ -115,11 +142,20 @@ body {
     0 0 10px currentColor,
     0 0 20px currentColor,
     0 0 40px currentColor;
+  transition: all 0.8s ease;
 }
 
 .hud-title.purple { color: var(--purple-400); }
 .hud-title.pink { color: var(--pink-400); }
 .hud-title.blue { color: var(--blue-400); }
+.hud-title.yellow { 
+  color: var(--gold-400);
+  font-family: 'Papyrus', 'Courier New', serif;
+  text-shadow: 
+    0 0 15px var(--gold-500),
+    0 0 30px var(--gold-500),
+    0 0 50px var(--gold-400);
+}
 
 .status-indicator {
   width: 0.75rem;
@@ -163,6 +199,7 @@ body {
   backdrop-filter: blur(24px);
   overflow: hidden;
   animation: fadeInScale 0.5s ease-out;
+  transition: all 0.6s ease;
 }
 
 .panel.cyan {
@@ -175,6 +212,12 @@ body {
   border-color: rgba(168, 85, 247, 0.3);
   background-color: rgba(168, 85, 247, 0.05);
   box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
+
+.panel.yellow {
+  border-color: rgba(245, 158, 11, 0.4);
+  background-color: rgba(245, 158, 11, 0.08);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
 }
 
 .panel.pink {
@@ -193,6 +236,15 @@ body {
   border-color: rgba(139, 92, 246, 0.3);
   background-color: rgba(139, 92, 246, 0.05);
   box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+/* HORUS PANELS */
+.panel.horus-panel {
+  border-radius: 0.25rem;
+  clip-path: polygon(
+    0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px)
+  );
 }
 
 .panel-gradient {
@@ -217,6 +269,14 @@ body {
   margin-bottom: 0.75rem;
   color: var(--cyan-400);
   text-transform: uppercase;
+  transition: all 0.6s ease;
+}
+
+.panel-title.horus-text {
+  font-family: 'Papyrus', 'Courier New', serif;
+  color: var(--gold-400);
+  letter-spacing: 0.3em;
+  text-shadow: 0 0 10px var(--gold-500);
 }
 
 .panel-body {
@@ -239,6 +299,13 @@ body {
   background: linear-gradient(to right, transparent, var(--cyan-500), transparent);
   opacity: 0.5;
   animation: scan 3s linear infinite;
+}
+
+.scan-line.horus-scan {
+  background: linear-gradient(to right, transparent, var(--gold-500), transparent);
+  height: 2px;
+  opacity: 0.6;
+  animation: scan 4s linear infinite;
 }
 
 /* ========================================
@@ -306,6 +373,10 @@ body {
 
 .terminal-message.system.blue {
   color: var(--blue-400);
+}
+
+.terminal-message.system.yellow {
+  color: var(--gold-400);
 }
 
 /* ========================================
