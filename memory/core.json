@@ -3,5 +3,14 @@
     "name": "Desconocido",
     "role": "No definido"
   },
-  "history": []
+  "history": [
+    {
+      "entidad": "jarvis",
+      "mensaje": "hola jarvis, saluda a Juan"
+    },
+    {
+      "entidad": "jarvis",
+      "mensaje": "hola ZERO, saluda a fede"
+    }
+  ]
 }

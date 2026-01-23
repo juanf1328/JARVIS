@@ -7,6 +7,9 @@ import NetworkPanel from "./panels/NetworkPanel";
 import ProcessPanel from "./panels/ProcessPanel";
 import NotesPanel from "./panels/NotesPanel";
 import CommandsPanel from "./panels/CommandsPanel";
+import HorusBackground from "./HorusBackground";
+import ZeroBackground from "./ZeroBackground";
+import AlfredBackground from "./AlfredBackground";
 
 interface Message {
   role: "user" | "system";
@@ -104,6 +107,11 @@ export default function Hud() {
     <div className={`hud-container ${getThemeClass()}`}>
       <div className={`grid-background ${getGridClass()}`} />
       <div className={`radial-overlay ${getRadialClass()}`} />
+      
+      {/* Fondos animados por identidad */}
+      {isHorus && <HorusBackground />}
+      {isZero && <ZeroBackground />}
+      {isAlfred && <AlfredBackground />}
 
       <div className="hud-content">
         {/* Header */}

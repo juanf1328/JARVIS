@@ -165,6 +165,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  z-index: 10;
 }
 
 /* Header */
