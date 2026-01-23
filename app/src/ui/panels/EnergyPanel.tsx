@@ -14,8 +14,8 @@ const IDENTITY_TITLES: Record<string, string> = {
 
 const COLORS: Record<string, { grad1: string; grad2: string; bg: string }> = {
   jarvis: { grad1: "#ec4899", grad2: "#f472b6", bg: "rgba(236, 72, 153, 0.2)" },
-  zero: { grad1: "#a855f7", grad2: "#c084fc", bg: "rgba(168, 85, 247, 0.2)" },
-  alfred: { grad1: "#ec4899", grad2: "#f472b6", bg: "rgba(236, 72, 153, 0.2)" },
+  zero: { grad1: "#22c55e", grad2: "#4ade80", bg: "rgba(34, 197, 94, 0.2)" },
+  alfred: { grad1: "#6b7280", grad2: "#9ca3af", bg: "rgba(107, 114, 128, 0.2)" },
   horus: { grad1: "#f59e0b", grad2: "#fbbf24", bg: "rgba(245, 158, 11, 0.2)" },
 };
 

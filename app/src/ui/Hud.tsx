@@ -5,7 +5,8 @@ import DiagnosticPanel from "./panels/DiagnosticPanel";
 import EnergyPanel from "./panels/EnergyPanel";
 import NetworkPanel from "./panels/NetworkPanel";
 import ProcessPanel from "./panels/ProcessPanel";
-import SecurityPanel from "./panels/SecurityPanel";
+import NotesPanel from "./panels/NotesPanel";
+import CommandsPanel from "./panels/CommandsPanel";
 
 interface Message {
   role: "user" | "system";
@@ -15,8 +16,8 @@ interface Message {
 
 const PERSONALIDADES: Record<string, { nombre: string; color: string }> = {
   jarvis: { nombre: "JARVIS", color: "cyan" },
-  zero: { nombre: "ZERO", color: "purple" },
-  alfred: { nombre: "ALFRED", color: "pink" },
+  zero: { nombre: "ZERO", color: "purple" }, // Verde ahora
+  alfred: { nombre: "ALFRED", color: "pink" }, // Gris ahora
   horus: { nombre: "HORUS", color: "yellow" },
 };
 
@@ -39,13 +40,10 @@ function animarNombre(targetName: string, setNombre: (n: string) => void) {
 }
 
 export default function Hud() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "system",
-      text: "Sistema en línea. Esperando órdenes...",
-      identity: "jarvis",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [streamingMessage, setStreamingMessage] = useState<string>("");
+  const [streamingIdentity, setStreamingIdentity] = useState<string>("");
+  const [isStreaming, setIsStreaming] = useState(false);
 
   const [nombreHUD, setNombreHUD] = useState("JARVIS");
   const [messageCount, setMessageCount] = useState(0);
@@ -64,17 +62,48 @@ export default function Hud() {
     }
   }, [messages]);
 
+  // Actualizar identidad cuando empieza el streaming
+  useEffect(() => {
+    if (isStreaming && streamingIdentity) {
+      identidadRef.current = streamingIdentity;
+      animarNombre(PERSONALIDADES[streamingIdentity].nombre, setNombreHUD);
+    }
+  }, [isStreaming, streamingIdentity]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, streamingMessage]);
 
   const currentPersonality = PERSONALIDADES[identidadRef.current];
   const isHorus = identidadRef.current === "horus";
+  const isZero = identidadRef.current === "zero";
+  const isAlfred = identidadRef.current === "alfred";
+
+  const getThemeClass = () => {
+    if (isHorus) return "horus-theme";
+    if (isZero) return "zero-theme";
+    if (isAlfred) return "alfred-theme";
+    return "";
+  };
+
+  const getGridClass = () => {
+    if (isHorus) return "horus-grid";
+    if (isZero) return "zero-grid";
+    if (isAlfred) return "alfred-grid";
+    return "";
+  };
+
+  const getRadialClass = () => {
+    if (isHorus) return "horus-radial";
+    if (isZero) return "zero-radial";
+    if (isAlfred) return "alfred-radial";
+    return "";
+  };
 
   return (
-    <div className={`hud-container ${isHorus ? "horus-theme" : ""}`}>
-      <div className={`grid-background ${isHorus ? "horus-grid" : ""}`} />
-      <div className={`radial-overlay ${isHorus ? "horus-radial" : ""}`} />
+    <div className={`hud-container ${getThemeClass()}`}>
+      <div className={`grid-background ${getGridClass()}`} />
+      <div className={`radial-overlay ${getRadialClass()}`} />
 
       <div className="hud-content">
         {/* Header */}
@@ -93,13 +122,7 @@ export default function Hud() {
         {/* Main grid */}
         <div className="main-grid">
           {/* Top panels */}
-          <Panel title="SISTEMA" color="cyan" identity={identidadRef.current}>
-            <div style={{ fontSize: '0.7rem' }}>
-              <div>KERNEL: v4.5.2</div>
-              <div>UPTIME: {Math.floor(Date.now() / 3600000 % 24)}h</div>
-              <div>STATUS: OPERATIONAL</div>
-            </div>
-          </Panel>
+          <CommandsPanel identity={identidadRef.current} />
           <DiagnosticPanel identity={identidadRef.current} />
           <EnergyPanel identity={identidadRef.current} />
 
@@ -121,6 +144,15 @@ export default function Hud() {
                     </div>
                   );
                 })}
+                
+                {/* Mensaje en streaming */}
+                {isStreaming && (
+                  <div className={`terminal-message system ${PERSONALIDADES[streamingIdentity]?.color || "cyan"}`}>
+                    <span className="sender">[{PERSONALIDADES[streamingIdentity]?.nombre || "SYSTEM"}]</span>
+                    <span className="text">{streamingMessage}<span className="cursor-blink">▋</span></span>
+                  </div>
+                )}
+                
                 <div ref={messagesEndRef} />
               </div>
             </div>
@@ -129,19 +161,32 @@ export default function Hud() {
               onSend={(text) =>
                 setMessages((prev) => [...prev, { role: "user", text }])
               }
-              onResponse={(text, identity = "jarvis") =>
+              onResponseStart={(identity) => {
+                setIsStreaming(true);
+                setStreamingIdentity(identity);
+                setStreamingMessage("");
+              }}
+              onResponseChunk={(chunk) => {
+                setStreamingMessage(chunk);
+              }}
+              onResponseEnd={(finalMessage, identity) => {
+                // Agregar el mensaje completo a la lista
                 setMessages((prev) => [
                   ...prev,
-                  { role: "system", text, identity },
-                ])
-              }
+                  { role: "system", text: finalMessage, identity },
+                ]);
+                // Limpiar el streaming
+                setIsStreaming(false);
+                setStreamingMessage("");
+                setStreamingIdentity("");
+              }}
             />
           </div>
 
           {/* Bottom panels */}
           <NetworkPanel identity={identidadRef.current} />
           <ProcessPanel messageCount={messageCount} identity={identidadRef.current} />
-          <SecurityPanel identity={identidadRef.current} />
+          <NotesPanel identity={identidadRef.current} />
         </div>
       </div>
     </div>

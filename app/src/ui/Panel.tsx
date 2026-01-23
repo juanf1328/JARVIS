@@ -7,8 +7,8 @@ interface Props {
 
 const IDENTITY_COLORS: Record<string, string> = {
   jarvis: "cyan",
-  zero: "purple",
-  alfred: "pink",
+  zero: "purple",  // Será verde en CSS
+  alfred: "pink",  // Será gris en CSS
   horus: "yellow",
 };
 
