@@ -17,6 +17,10 @@ interface Message {
   identity?: string;
 }
 
+interface HudProps {
+  onLogout?: () => void;
+}
+
 const PERSONALIDADES: Record<string, { nombre: string; color: string }> = {
   jarvis: { nombre: "JARVIS", color: "cyan" },
   zero: { nombre: "ZERO", color: "purple" }, // Verde ahora
@@ -42,7 +46,7 @@ function animarNombre(targetName: string, setNombre: (n: string) => void) {
   }, 50);
 }
 
-export default function Hud() {
+export default function Hud({ onLogout }: HudProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [streamingMessage, setStreamingMessage] = useState<string>("");
   const [streamingIdentity, setStreamingIdentity] = useState<string>("");
@@ -122,8 +126,36 @@ export default function Hud() {
             </div>
             <div className="status-indicator" />
           </div>
-          <div className="system-status">
-            SYSTEM STATUS: <span className="online">ONLINE</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <div className="system-status">
+              SYSTEM STATUS: <span className="online">ONLINE</span>
+            </div>
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                style={{
+                  background: "rgba(239, 68, 68, 0.1)",
+                  border: "1px solid rgba(239, 68, 68, 0.3)",
+                  borderRadius: "0.5rem",
+                  padding: "0.5rem 1rem",
+                  color: "#ef4444",
+                  fontSize: "0.75rem",
+                  cursor: "pointer",
+                  fontFamily: "Courier New, monospace",
+                  transition: "all 0.3s ease"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(239, 68, 68, 0.2)";
+                  e.currentTarget.style.borderColor = "rgba(239, 68, 68, 0.5)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(239, 68, 68, 0.1)";
+                  e.currentTarget.style.borderColor = "rgba(239, 68, 68, 0.3)";
+                }}
+              >
+                LOGOUT
+              </button>
+            )}
           </div>
         </div>
 

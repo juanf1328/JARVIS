@@ -1,0 +1,536 @@
+/* ========================================
+   LOGIN CONTAINER
+   ======================================== */
+.login-container {
+  width: 100%;
+  height: 100vh;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
+
+/* Grid Background */
+.login-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  background-image: 
+    linear-gradient(rgba(34, 211, 238, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.2) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+/* Radial Gradient */
+.login-radial {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(6, 182, 212, 0.2) 0%,
+    rgba(0, 0, 0, 0.9) 50%,
+    black 100%
+  );
+}
+
+/* Círculos animados */
+.login-circles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  opacity: 0.3;
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+.circle-3 {
+  width: 700px;
+  height: 700px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.1;
+  }
+}
+
+/* ========================================
+   LOGIN CONTENT
+   ======================================== */
+.login-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   ARC REACTOR LOGO
+   ======================================== */
+.login-logo {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.arc-reactor {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arc-core {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #22d3ee, #06b6d4);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 20px #22d3ee,
+    0 0 40px #06b6d4,
+    0 0 60px #22d3ee;
+  animation: corePulse 2s ease-in-out infinite;
+}
+
+@keyframes corePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 
+      0 0 20px #22d3ee,
+      0 0 40px #06b6d4,
+      0 0 60px #22d3ee;
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 
+      0 0 30px #22d3ee,
+      0 0 60px #06b6d4,
+      0 0 90px #22d3ee;
+  }
+}
+
+.arc-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(34, 211, 238, 0.3);
+}
+
+.arc-ring-1 {
+  width: 60px;
+  height: 60px;
+  animation: rotate 4s linear infinite;
+}
+
+.arc-ring-2 {
+  width: 85px;
+  height: 85px;
+  animation: rotate 6s linear infinite reverse;
+}
+
+.arc-ring-3 {
+  width: 110px;
+  height: 110px;
+  animation: rotate 8s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   TITLE
+   ======================================== */
+.login-title {
+  font-size: 4rem;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  margin: 0 0 0.5rem 0;
+  color: #22d3ee;
+  text-shadow: 
+    0 0 10px #22d3ee,
+    0 0 20px #22d3ee,
+    0 0 40px #06b6d4;
+}
+
+.glitch {
+  position: relative;
+  display: inline-block;
+  animation: glitch 3s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #ff00de;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #00fff9;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% {
+    clip: rect(10px, 9999px, 31px, 0);
+  }
+  25% {
+    clip: rect(70px, 9999px, 71px, 0);
+  }
+  50% {
+    clip: rect(60px, 9999px, 15px, 0);
+  }
+  75% {
+    clip: rect(90px, 9999px, 94px, 0);
+  }
+  100% {
+    clip: rect(40px, 9999px, 92px, 0);
+  }
+}
+
+@keyframes glitch-anim2 {
+  0% {
+    clip: rect(65px, 9999px, 100px, 0);
+  }
+  25% {
+    clip: rect(25px, 9999px, 33px, 0);
+  }
+  50% {
+    clip: rect(50px, 9999px, 20px, 0);
+  }
+  75% {
+    clip: rect(75px, 9999px, 5px, 0);
+  }
+  100% {
+    clip: rect(15px, 9999px, 85px, 0);
+  }
+}
+
+.login-subtitle {
+  font-size: 0.9rem;
+  color: #6b7280;
+  letter-spacing: 0.1em;
+  margin: 0 0 3rem 0;
+  opacity: 0.7;
+}
+
+/* ========================================
+   FORM
+   ======================================== */
+.login-form {
+  width: 400px;
+  max-width: 90vw;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  font-size: 1.2rem;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.login-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  background: rgba(6, 182, 212, 0.05);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 0.5rem;
+  color: #22d3ee;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.login-input::placeholder {
+  color: rgba(34, 211, 238, 0.3);
+  letter-spacing: 0.2em;
+}
+
+.login-input:focus {
+  border-color: #22d3ee;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+  background: rgba(6, 182, 212, 0.1);
+}
+
+.login-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   ERROR
+   ======================================== */
+.login-error {
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: 0.5rem;
+  color: #ef4444;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.error-icon {
+  font-size: 1.2rem;
+}
+
+/* ========================================
+   BUTTON
+   ======================================== */
+.login-button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #22d3ee, #06b6d4);
+  border: none;
+  border-radius: 0.5rem;
+  color: #000;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.login-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.login-button:hover {
+  box-shadow: 
+    0 0 20px rgba(34, 211, 238, 0.5),
+    0 0 40px rgba(34, 211, 238, 0.3);
+  transform: translateY(-2px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-button.loading {
+  background: linear-gradient(135deg, #06b6d4, #0e7490);
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.login-footer {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #6b7280;
+  opacity: 0.7;
+}
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.version {
+  letter-spacing: 0.1em;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+  .login-title {
+    font-size: 2.5rem;
+  }
+  
+  .arc-reactor {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .arc-core {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .arc-ring-1 {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .arc-ring-2 {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .arc-ring-3 {
+    width: 75px;
+    height: 75px;
+  }
+}
