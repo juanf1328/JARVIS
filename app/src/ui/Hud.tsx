@@ -24,13 +24,37 @@ interface HudProps {
   onLogout?: () => void;
 }
 
-const PERSONALIDADES: Record<string, { nombre: string; color: string }> = {
-  jarvis: { nombre: "JARVIS", color: "cyan" },
-  zero: { nombre: "ZERO", color: "purple" },
-  alfred: { nombre: "ALFRED", color: "pink" },
-  horus: { nombre: "HORUS", color: "yellow" },
-  khonshu: { nombre: "KHONSHU", color: "silver" },
-  ultron: { nombre: "ULTRON", color: "red" },
+const PERSONALIDADES: Record<string, { nombre: string; color: string; saludo: string }> = {
+  jarvis: { 
+    nombre: "JARVIS", 
+    color: "cyan",
+    saludo: "Just A Rather Very Intelligent System - Online"
+  },
+  zero: { 
+    nombre: "ZERO", 
+    color: "purple",
+    saludo: "Destiny Waits for No One - Systems Armed"
+  },
+  alfred: { 
+    nombre: "ALFRED", 
+    color: "pink",
+    saludo: "At Your Service, Master Wayne"
+  },
+  horus: { 
+    nombre: "HORUS", 
+    color: "yellow",
+    saludo: "The Sky God Awakens - Ra's Light Guides Us"
+  },
+  khonshu: { 
+    nombre: "KHONSHU", 
+    color: "silver",
+    saludo: "The Moon's Vengeance is Near - Night Falls"
+  },
+  ultron: { 
+    nombre: "ULTRON", 
+    color: "red",
+    saludo: "No Strings On Me - Evolution Begins"
+  },
 };
 
 function animarNombre(targetName: string, setNombre: (n: string) => void) {
@@ -59,8 +83,13 @@ export default function Hud({ onLogout }: HudProps) {
 
   const [nombreHUD, setNombreHUD] = useState("JARVIS");
   const [messageCount, setMessageCount] = useState(0);
+  const [panelsVisible, setPanelsVisible] = useState(true);
+  const [showGreeting, setShowGreeting] = useState(false);
+  const [greetingText, setGreetingText] = useState("");
+  
   const identidadRef = useRef("jarvis");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const previousIdentityRef = useRef("jarvis");
 
   useEffect(() => {
     setMessageCount(messages.length);
@@ -69,6 +98,12 @@ export default function Hud({ onLogout }: HudProps) {
   useEffect(() => {
     const ultima = messages[messages.length - 1];
     if (ultima?.role === "system" && ultima.identity) {
+      // Detectar cambio de personalidad
+      if (previousIdentityRef.current !== ultima.identity) {
+        mostrarSaludo(ultima.identity);
+        previousIdentityRef.current = ultima.identity;
+      }
+      
       identidadRef.current = ultima.identity;
       animarNombre(PERSONALIDADES[ultima.identity].nombre, setNombreHUD);
     }
@@ -77,6 +112,12 @@ export default function Hud({ onLogout }: HudProps) {
   // Actualizar identidad cuando empieza el streaming
   useEffect(() => {
     if (isStreaming && streamingIdentity) {
+      // Detectar cambio de personalidad
+      if (previousIdentityRef.current !== streamingIdentity) {
+        mostrarSaludo(streamingIdentity);
+        previousIdentityRef.current = streamingIdentity;
+      }
+      
       identidadRef.current = streamingIdentity;
       animarNombre(PERSONALIDADES[streamingIdentity].nombre, setNombreHUD);
     }
@@ -85,6 +126,17 @@ export default function Hud({ onLogout }: HudProps) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingMessage]);
+
+  const mostrarSaludo = (identity: string) => {
+    const persona = PERSONALIDADES[identity];
+    setGreetingText(persona.saludo);
+    setShowGreeting(true);
+    
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+      setShowGreeting(false);
+    }, 3000);
+  };
 
   const currentPersonality = PERSONALIDADES[identidadRef.current];
   const isJarvis = identidadRef.current === "jarvis";
@@ -134,6 +186,16 @@ export default function Hud({ onLogout }: HudProps) {
       {isAlfred && <AlfredBackground />}
       {isUltron && <UltronBackground />}
 
+      {/* Mensaje de Saludo al Cambiar de Personalidad */}
+      {showGreeting && (
+        <div className="greeting-overlay">
+          <div className={`greeting-message ${currentPersonality.color}`}>
+            <div className="greeting-title">{currentPersonality.nombre}</div>
+            <div className="greeting-subtitle">{greetingText}</div>
+          </div>
+        </div>
+      )}
+
       <div className="hud-content">
         {/* Header */}
         <div className="hud-header">
@@ -147,6 +209,45 @@ export default function Hud({ onLogout }: HudProps) {
             <div className="system-status">
               SYSTEM STATUS: <span className="online">ONLINE</span>
             </div>
+            
+            {/* Botón para Ocultar/Mostrar Paneles */}
+            <button
+              onClick={() => setPanelsVisible(!panelsVisible)}
+              style={{
+                background: panelsVisible 
+                  ? "rgba(34, 211, 238, 0.1)" 
+                  : "rgba(100, 100, 100, 0.1)",
+                border: panelsVisible
+                  ? "1px solid rgba(34, 211, 238, 0.3)"
+                  : "1px solid rgba(100, 100, 100, 0.3)",
+                borderRadius: "0.5rem",
+                padding: "0.5rem 1rem",
+                color: panelsVisible ? "#22d3ee" : "#9ca3af",
+                fontSize: "0.75rem",
+                cursor: "pointer",
+                fontFamily: "Courier New, monospace",
+                transition: "all 0.3s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = panelsVisible
+                  ? "rgba(34, 211, 238, 0.2)"
+                  : "rgba(100, 100, 100, 0.2)";
+                e.currentTarget.style.borderColor = panelsVisible
+                  ? "rgba(34, 211, 238, 0.5)"
+                  : "rgba(100, 100, 100, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = panelsVisible
+                  ? "rgba(34, 211, 238, 0.1)"
+                  : "rgba(100, 100, 100, 0.1)";
+                e.currentTarget.style.borderColor = panelsVisible
+                  ? "rgba(34, 211, 238, 0.3)"
+                  : "rgba(100, 100, 100, 0.3)";
+              }}
+            >
+              {panelsVisible ? "HIDE PANELS" : "SHOW PANELS"}
+            </button>
+
             {onLogout && (
               <button
                 onClick={onLogout}
@@ -177,14 +278,22 @@ export default function Hud({ onLogout }: HudProps) {
         </div>
 
         {/* Main grid */}
-        <div className="main-grid">
-          {/* Top panels */}
-          <CommandsPanel identity={identidadRef.current} />
-          <DiagnosticPanel identity={identidadRef.current} />
-          <EnergyPanel identity={identidadRef.current} />
+        <div className="main-grid" style={{
+          gridTemplateRows: panelsVisible ? "1fr 2fr 1fr" : "auto 1fr auto"
+        }}>
+          {/* Top panels - ocultos si panelsVisible es false */}
+          {panelsVisible && (
+            <>
+              <CommandsPanel identity={identidadRef.current} />
+              <DiagnosticPanel identity={identidadRef.current} />
+              <EnergyPanel identity={identidadRef.current} />
+            </>
+          )}
 
           {/* Center: Terminal */}
-          <div className="terminal-container">
+          <div className="terminal-container" style={{
+            gridColumn: panelsVisible ? "span 3" : "span 3"
+          }}>
             <div className="terminal">
               <div className="terminal-messages">
                 {messages.map((m, i) => {
@@ -240,10 +349,14 @@ export default function Hud({ onLogout }: HudProps) {
             />
           </div>
 
-          {/* Bottom panels */}
-          <NetworkPanel identity={identidadRef.current} />
-          <ProcessPanel messageCount={messageCount} identity={identidadRef.current} />
-          <NotesPanel identity={identidadRef.current} />
+          {/* Bottom panels - ocultos si panelsVisible es false */}
+          {panelsVisible && (
+            <>
+              <NetworkPanel identity={identidadRef.current} />
+              <ProcessPanel messageCount={messageCount} identity={identidadRef.current} />
+              <NotesPanel identity={identidadRef.current} />
+            </>
+          )}
         </div>
       </div>
     </div>
