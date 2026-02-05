@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Login.css";
 
 interface Props {
@@ -10,21 +10,33 @@ export default function Login({ onLogin }: Props) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isUltron, setIsUltron] = useState(false);
+  const [isGlitching, setIsGlitching] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsGlitching(true);
+      
+      setTimeout(() => {
+        setIsUltron((prev) => !prev);
+        setIsGlitching(false);
+      }, 300);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = () => {
     setError("");
     setLoading(true);
 
-    // Simular verificación
     setTimeout(() => {
       if (username === "jforni" && password === "2nqc4g") {
-        // Login exitoso
         onLogin();
       } else {
         setError("ACCESO DENEGADO");
         setLoading(false);
         
-        // Limpiar campos después de error
         setTimeout(() => {
           setUsername("");
           setPassword("");
@@ -41,35 +53,49 @@ export default function Login({ onLogin }: Props) {
   };
 
   return (
-    <div className="login-container">
-      {/* Grid Background */}
+    <div className={`login-container ${isUltron ? "ultron-mode" : ""} ${isGlitching ? "glitching" : ""}`}>
       <div className="login-grid" />
       <div className="login-radial" />
 
-      {/* Círculos animados */}
       <div className="login-circles">
         <div className="circle circle-1" />
         <div className="circle circle-2" />
         <div className="circle circle-3" />
       </div>
 
-      {/* Logo/Title */}
       <div className="login-content">
         <div className="login-logo">
           <div className="arc-reactor">
             <div className="arc-core" />
-            <div className="arc-ring arc-ring-1" />
-            <div className="arc-ring arc-ring-2" />
-            <div className="arc-ring arc-ring-3" />
+            <div className="arc-ring arc-ring-1">
+              <div className="arc-segment arc-segment-1" />
+              <div className="arc-segment arc-segment-2" />
+              <div className="arc-segment arc-segment-3" />
+            </div>
+            <div className="arc-ring arc-ring-2">
+              <div className="arc-segment arc-segment-1" />
+              <div className="arc-segment arc-segment-2" />
+              <div className="arc-segment arc-segment-3" />
+            </div>
+            <div className="arc-ring arc-ring-3">
+              <div className="arc-segment arc-segment-1" />
+              <div className="arc-segment arc-segment-2" />
+              <div className="arc-segment arc-segment-3" />
+            </div>
           </div>
         </div>
 
         <h1 className="login-title">
-          <span className="glitch" data-text="JARVIS">JARVIS</span>
+          <span className={`glitch-text ${isUltron ? "is-ultron" : ""} ${isGlitching ? "glitching" : ""}`}>
+            {isUltron ? "ULTRON" : "JARVIS"}
+          </span>
         </h1>
-        <p className="login-subtitle">Just A Rather Very Intelligent System</p>
+        <p className="login-subtitle">
+          {isUltron 
+            ? "No Strings On Me" 
+            : "Just A Rather Very Intelligent System"}
+        </p>
 
-        {/* Formulario */}
         <div className="login-form">
           <div className="input-group">
             <div className="input-icon">👤</div>

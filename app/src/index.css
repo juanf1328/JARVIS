@@ -21,6 +21,9 @@
   --gray-900: #111827;
   --gold-400: #fbbf24;
   --gold-500: #f59e0b;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
 }
 
 * {
@@ -76,6 +79,12 @@ body {
   background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
 }
 
+/* ULTRON THEME - Red Chaos */
+.hud-container.ultron-theme {
+  background: linear-gradient(135deg, #200000 0%, #3d0000 50%, #200000 100%);
+  font-family: 'Impact', 'Arial Black', sans-serif;
+}
+
 /* Grid Background */
 .grid-background {
   position: absolute;
@@ -111,6 +120,36 @@ body {
     linear-gradient(90deg, rgba(100, 100, 100, 0.15) 1px, transparent 1px);
   background-size: 30px 30px;
   opacity: 0.2;
+}
+
+.grid-background.ultron-grid {
+  background-image: 
+    linear-gradient(rgba(239, 68, 68, 0.3) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(239, 68, 68, 0.3) 2px, transparent 2px);
+  background-size: 45px 45px;
+  opacity: 0.4;
+  animation: gridGlitch 0.5s infinite;
+}
+
+@keyframes gridGlitch {
+  0%, 90% {
+    transform: translate(0, 0);
+  }
+  92% {
+    transform: translate(-2px, 2px);
+  }
+  94% {
+    transform: translate(2px, -2px);
+  }
+  96% {
+    transform: translate(-2px, -2px);
+  }
+  98% {
+    transform: translate(2px, 2px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* Radial Gradient */
@@ -150,6 +189,15 @@ body {
     circle at center,
     rgba(60, 60, 60, 0.15) 0%,
     rgba(0, 0, 0, 0.95) 40%,
+    #000000 100%
+  );
+}
+
+.radial-overlay.ultron-radial {
+  background: radial-gradient(
+    circle at center,
+    rgba(239, 68, 68, 0.4) 0%,
+    rgba(32, 0, 0, 0.95) 50%,
     #000000 100%
   );
 }
@@ -304,6 +352,12 @@ body {
   box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
 }
 
+.panel.red {
+  border-color: rgba(239, 68, 68, 0.6);
+  background-color: rgba(239, 68, 68, 0.1);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+}
+
 /* HORUS PANELS */
 .panel.horus-panel {
   border-radius: 0.25rem;
@@ -350,6 +404,13 @@ body {
   color: var(--gold-400);
 }
 
+.panel.red .panel-title {
+  color: var(--red-500);
+  text-shadow: 0 0 10px var(--red-600);
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-weight: 900;
+}
+
 .panel-title.horus-text {
   font-family: 'Papyrus', 'Courier New', serif;
   color: var(--gold-400);
@@ -374,6 +435,12 @@ body {
 
 .panel.yellow .panel-body {
   color: rgba(251, 191, 36, 0.8);
+}
+
+.panel.red .panel-body {
+  color: rgba(248, 113, 113, 0.9);
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
 }
 
 .panel-body .no-data {
@@ -467,6 +534,12 @@ body {
 
 .terminal-message.system.yellow {
   color: var(--gold-400);
+}
+
+.terminal-message.system.red {
+  color: var(--red-500);
+  font-weight: 700;
+  text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
 }
 
 /* ========================================

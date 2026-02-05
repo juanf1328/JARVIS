@@ -11,6 +11,31 @@
   position: relative;
   overflow: hidden;
   font-family: 'Courier New', monospace;
+  transition: all 0.8s ease;
+}
+
+/* ULTRON MODE */
+.login-container.ultron-mode {
+  background: linear-gradient(135deg, #1a0000 0%, #330000 50%, #1a0000 100%);
+}
+
+.login-container.ultron-mode .login-grid {
+  background-image: 
+    linear-gradient(rgba(239, 68, 68, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(239, 68, 68, 0.2) 1px, transparent 1px);
+}
+
+.login-container.ultron-mode .login-radial {
+  background: radial-gradient(
+    circle at center,
+    rgba(239, 68, 68, 0.25) 0%,
+    rgba(26, 0, 0, 0.9) 50%,
+    black 100%
+  );
+}
+
+.login-container.ultron-mode .circle {
+  border-color: rgba(239, 68, 68, 0.3);
 }
 
 /* Grid Background */
@@ -23,6 +48,7 @@
     linear-gradient(90deg, rgba(34, 211, 238, 0.2) 1px, transparent 1px);
   background-size: 50px 50px;
   animation: gridMove 20s linear infinite;
+  transition: all 0.8s ease;
 }
 
 @keyframes gridMove {
@@ -44,6 +70,7 @@
     rgba(0, 0, 0, 0.9) 50%,
     black 100%
   );
+  transition: all 0.8s ease;
 }
 
 /* Círculos animados */
@@ -58,6 +85,7 @@
   border-radius: 50%;
   border: 1px solid rgba(34, 211, 238, 0.2);
   opacity: 0.3;
+  transition: all 0.8s ease;
 }
 
 .circle-1 {
@@ -120,7 +148,7 @@
 }
 
 /* ========================================
-   ARC REACTOR LOGO
+   ARC REACTOR LOGO (MEJORADO Y MÁS GRANDE)
    ======================================== */
 .login-logo {
   margin-bottom: 2rem;
@@ -129,64 +157,121 @@
 }
 
 .arc-reactor {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0 0 30px rgba(34, 211, 238, 0.5));
+  transition: filter 0.8s ease;
 }
 
+.ultron-mode .arc-reactor {
+  filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.5));
+}
+
+/* Núcleo central brillante más grande */
 .arc-core {
-  width: 40px;
-  height: 40px;
-  background: radial-gradient(circle, #22d3ee, #06b6d4);
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #ffffff 0%,
+    #a5f3fc 20%,
+    #22d3ee 50%,
+    #06b6d4 80%,
+    #0e7490 100%
+  );
   border-radius: 50%;
   box-shadow: 
-    0 0 20px #22d3ee,
-    0 0 40px #06b6d4,
-    0 0 60px #22d3ee;
+    0 0 10px #ffffff,
+    0 0 30px #22d3ee,
+    0 0 50px #06b6d4,
+    0 0 70px #0e7490,
+    inset 0 0 30px rgba(255, 255, 255, 0.9),
+    inset -5px -5px 20px rgba(6, 182, 212, 0.8);
   animation: corePulse 2s ease-in-out infinite;
+  transition: all 0.8s ease;
+  position: relative;
+  z-index: 4;
+}
+
+.arc-core::before {
+  content: "";
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 30%;
+  height: 30%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent);
+  border-radius: 50%;
+  filter: blur(3px);
+}
+
+.ultron-mode .arc-core {
+  background: radial-gradient(
+    circle at 30% 30%,
+    #ffffff 0%,
+    #fca5a5 20%,
+    #ef4444 50%,
+    #dc2626 80%,
+    #991b1b 100%
+  );
+  box-shadow: 
+    0 0 10px #ffffff,
+    0 0 30px #ef4444,
+    0 0 50px #dc2626,
+    0 0 70px #991b1b,
+    inset 0 0 30px rgba(255, 100, 100, 0.9),
+    inset -5px -5px 20px rgba(220, 38, 38, 0.8);
 }
 
 @keyframes corePulse {
   0%, 100% {
     transform: scale(1);
     box-shadow: 
-      0 0 20px #22d3ee,
-      0 0 40px #06b6d4,
-      0 0 60px #22d3ee;
+      0 0 10px #ffffff,
+      0 0 30px currentColor,
+      0 0 50px currentColor,
+      0 0 70px currentColor,
+      inset 0 0 30px rgba(255, 255, 255, 0.9);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.05);
     box-shadow: 
-      0 0 30px #22d3ee,
-      0 0 60px #06b6d4,
-      0 0 90px #22d3ee;
+      0 0 15px #ffffff,
+      0 0 40px currentColor,
+      0 0 70px currentColor,
+      0 0 100px currentColor,
+      inset 0 0 40px rgba(255, 255, 255, 1);
   }
 }
 
+/* Anillos con segmentos más grandes */
 .arc-ring {
   position: absolute;
   border-radius: 50%;
-  border: 2px solid rgba(34, 211, 238, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .arc-ring-1 {
-  width: 60px;
-  height: 60px;
+  width: 105px;
+  height: 105px;
   animation: rotate 4s linear infinite;
 }
 
 .arc-ring-2 {
-  width: 85px;
-  height: 85px;
+  width: 145px;
+  height: 145px;
   animation: rotate 6s linear infinite reverse;
 }
 
 .arc-ring-3 {
-  width: 110px;
-  height: 110px;
+  width: 185px;
+  height: 185px;
   animation: rotate 8s linear infinite;
 }
 
@@ -199,6 +284,60 @@
   }
 }
 
+/* Segmentos del Arc Reactor más brillantes */
+.arc-segment {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.arc-segment-1 {
+  border: 3px solid transparent;
+  border-top-color: rgba(34, 211, 238, 0.9);
+  border-right-color: rgba(34, 211, 238, 0.9);
+  clip-path: polygon(50% 50%, 100% 0, 100% 50%);
+  transition: all 0.8s ease;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+}
+
+.arc-segment-2 {
+  border: 3px solid transparent;
+  border-bottom-color: rgba(34, 211, 238, 0.7);
+  border-left-color: rgba(34, 211, 238, 0.7);
+  clip-path: polygon(50% 50%, 0 50%, 0 100%, 50% 100%);
+  transition: all 0.8s ease;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+}
+
+.arc-segment-3 {
+  border: 3px solid transparent;
+  border-right-color: rgba(34, 211, 238, 0.5);
+  border-bottom-color: rgba(34, 211, 238, 0.5);
+  clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
+  transition: all 0.8s ease;
+  box-shadow: 0 0 6px rgba(34, 211, 238, 0.4);
+}
+
+/* ULTRON Arc Reactor */
+.ultron-mode .arc-segment-1 {
+  border-top-color: rgba(239, 68, 68, 0.9);
+  border-right-color: rgba(239, 68, 68, 0.9);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+.ultron-mode .arc-segment-2 {
+  border-bottom-color: rgba(239, 68, 68, 0.7);
+  border-left-color: rgba(239, 68, 68, 0.7);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+.ultron-mode .arc-segment-3 {
+  border-right-color: rgba(239, 68, 68, 0.5);
+  border-bottom-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+}
+
 /* ========================================
    TITLE
    ======================================== */
@@ -207,21 +346,37 @@
   font-weight: bold;
   letter-spacing: 0.2em;
   margin: 0 0 0.5rem 0;
+  transition: all 0.5s ease;
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
   color: #22d3ee;
   text-shadow: 
     0 0 10px #22d3ee,
     0 0 20px #22d3ee,
     0 0 40px #06b6d4;
+  animation: textGlow 2s ease-in-out infinite;
+  transition: all 0.5s ease;
 }
 
-.glitch {
-  position: relative;
-  display: inline-block;
-  animation: glitch 3s infinite;
+.glitch-text.is-ultron {
+  color: #ef4444;
+  text-shadow: 
+    0 0 10px #ef4444,
+    0 0 20px #dc2626,
+    0 0 40px #b91c1c;
+  animation: textGlowRed 2s ease-in-out infinite;
 }
 
-.glitch::before,
-.glitch::after {
+/* EFECTO GLITCH AL CAMBIAR */
+.glitch-text.glitching {
+  animation: intensiveGlitch 0.3s linear;
+}
+
+.glitch-text.glitching::before,
+.glitch-text.glitching::after {
   content: attr(data-text);
   position: absolute;
   top: 0;
@@ -230,53 +385,179 @@
   height: 100%;
 }
 
-.glitch::before {
-  left: 2px;
-  text-shadow: -2px 0 #ff00de;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim 5s infinite linear alternate-reverse;
+.glitch-text.glitching::before {
+  left: -3px;
+  text-shadow: 2px 0 #ff00de;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitchEffect1 0.3s linear infinite;
 }
 
-.glitch::after {
-  left: -2px;
+.glitch-text.glitching::after {
+  left: 3px;
   text-shadow: -2px 0 #00fff9;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim2 5s infinite linear alternate-reverse;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitchEffect2 0.3s linear infinite;
 }
 
-@keyframes glitch-anim {
+@keyframes intensiveGlitch {
   0% {
-    clip: rect(10px, 9999px, 31px, 0);
+    transform: translate(0);
+    filter: hue-rotate(0deg);
   }
-  25% {
-    clip: rect(70px, 9999px, 71px, 0);
+  20% {
+    transform: translate(-5px, 5px);
+    filter: hue-rotate(90deg);
   }
-  50% {
-    clip: rect(60px, 9999px, 15px, 0);
+  40% {
+    transform: translate(5px, -5px);
+    filter: hue-rotate(180deg);
   }
-  75% {
-    clip: rect(90px, 9999px, 94px, 0);
+  60% {
+    transform: translate(-5px, -5px);
+    filter: hue-rotate(270deg);
+  }
+  80% {
+    transform: translate(5px, 5px);
+    filter: hue-rotate(360deg);
   }
   100% {
-    clip: rect(40px, 9999px, 92px, 0);
+    transform: translate(0);
+    filter: hue-rotate(0deg);
   }
 }
 
-@keyframes glitch-anim2 {
+@keyframes glitchEffect1 {
   0% {
-    clip: rect(65px, 9999px, 100px, 0);
+    clip: rect(42px, 9999px, 44px, 0);
+    transform: skew(0.5deg);
   }
   25% {
-    clip: rect(25px, 9999px, 33px, 0);
+    clip: rect(12px, 9999px, 59px, 0);
+    transform: skew(-0.8deg);
   }
   50% {
-    clip: rect(50px, 9999px, 20px, 0);
+    clip: rect(82px, 9999px, 30px, 0);
+    transform: skew(0.3deg);
   }
   75% {
-    clip: rect(75px, 9999px, 5px, 0);
+    clip: rect(21px, 9999px, 94px, 0);
+    transform: skew(-0.6deg);
   }
   100% {
-    clip: rect(15px, 9999px, 85px, 0);
+    clip: rect(67px, 9999px, 15px, 0);
+    transform: skew(0.4deg);
+  }
+}
+
+@keyframes glitchEffect2 {
+  0% {
+    clip: rect(65px, 9999px, 119px, 0);
+    transform: skew(-0.3deg);
+  }
+  25% {
+    clip: rect(29px, 9999px, 54px, 0);
+    transform: skew(0.7deg);
+  }
+  50% {
+    clip: rect(93px, 9999px, 11px, 0);
+    transform: skew(-0.5deg);
+  }
+  75% {
+    clip: rect(44px, 9999px, 77px, 0);
+    transform: skew(0.6deg);
+  }
+  100% {
+    clip: rect(10px, 9999px, 85px, 0);
+    transform: skew(-0.4deg);
+  }
+}
+
+/* Glitch del container */
+.login-container.glitching {
+  animation: containerShake 0.3s linear;
+}
+
+@keyframes containerShake {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-2px, 2px);
+  }
+  20% {
+    transform: translate(2px, -2px);
+  }
+  30% {
+    transform: translate(-2px, -2px);
+  }
+  40% {
+    transform: translate(2px, 2px);
+  }
+  50% {
+    transform: translate(-2px, 2px);
+  }
+  60% {
+    transform: translate(2px, -2px);
+  }
+  70% {
+    transform: translate(-2px, -2px);
+  }
+  80% {
+    transform: translate(2px, 2px);
+  }
+  90% {
+    transform: translate(-2px, 2px);
+  }
+}
+
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px #22d3ee,
+      0 0 20px #22d3ee,
+      0 0 40px #06b6d4;
+  }
+  50% {
+    text-shadow: 
+      0 0 20px #22d3ee,
+      0 0 40px #06b6d4,
+      0 0 60px #22d3ee;
+  }
+}
+
+@keyframes textGlowRed {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px #ef4444,
+      0 0 20px #dc2626,
+      0 0 40px #b91c1c;
+  }
+  50% {
+    text-shadow: 
+      0 0 20px #ef4444,
+      0 0 40px #dc2626,
+      0 0 60px #ef4444;
+  }
+}
+
+@keyframes glitchShake {
+  0%, 90% {
+    transform: translate(0, 0);
+  }
+  92% {
+    transform: translate(-2px, 2px);
+  }
+  94% {
+    transform: translate(2px, -2px);
+  }
+  96% {
+    transform: translate(-2px, -2px);
+  }
+  98% {
+    transform: translate(2px, 2px);
+  }
+  100% {
+    transform: translate(0, 0);
   }
 }
 
@@ -286,6 +567,12 @@
   letter-spacing: 0.1em;
   margin: 0 0 3rem 0;
   opacity: 0.7;
+  transition: all 0.5s ease;
+}
+
+.ultron-mode .login-subtitle {
+  color: #ef4444;
+  opacity: 0.8;
 }
 
 /* ========================================
@@ -337,15 +624,31 @@
   transition: all 0.3s ease;
 }
 
+.ultron-mode .login-input {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
 .login-input::placeholder {
   color: rgba(34, 211, 238, 0.3);
   letter-spacing: 0.2em;
+}
+
+.ultron-mode .login-input::placeholder {
+  color: rgba(239, 68, 68, 0.3);
 }
 
 .login-input:focus {
   border-color: #22d3ee;
   box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
   background: rgba(6, 182, 212, 0.1);
+}
+
+.ultron-mode .login-input:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
 }
 
 .login-input:disabled {
@@ -405,6 +708,10 @@
   overflow: hidden;
 }
 
+.ultron-mode .login-button {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
 .login-button::before {
   content: "";
   position: absolute;
@@ -430,6 +737,12 @@
   transform: translateY(-2px);
 }
 
+.ultron-mode .login-button:hover {
+  box-shadow: 
+    0 0 20px rgba(239, 68, 68, 0.5),
+    0 0 40px rgba(239, 68, 68, 0.3);
+}
+
 .login-button:active {
   transform: translateY(0);
 }
@@ -441,6 +754,10 @@
 
 .login-button.loading {
   background: linear-gradient(135deg, #06b6d4, #0e7490);
+}
+
+.ultron-mode .login-button.loading {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
 }
 
 /* Spinner */
@@ -472,6 +789,11 @@
   font-size: 0.75rem;
   color: #6b7280;
   opacity: 0.7;
+  transition: all 0.5s ease;
+}
+
+.ultron-mode .login-footer {
+  color: #ef4444;
 }
 
 .status-line {
@@ -486,6 +808,10 @@
   background: #4ade80;
   border-radius: 50%;
   animation: blink 2s infinite;
+}
+
+.ultron-mode .status-dot {
+  background: #ef4444;
 }
 
 @keyframes blink {
@@ -510,27 +836,27 @@
   }
   
   .arc-reactor {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .arc-core {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .arc-ring-1 {
     width: 80px;
     height: 80px;
   }
   
-  .arc-core {
-    width: 30px;
-    height: 30px;
-  }
-  
-  .arc-ring-1 {
-    width: 45px;
-    height: 45px;
-  }
-  
   .arc-ring-2 {
-    width: 60px;
-    height: 60px;
+    width: 110px;
+    height: 110px;
   }
   
   .arc-ring-3 {
-    width: 75px;
-    height: 75px;
+    width: 140px;
+    height: 140px;
   }
 }

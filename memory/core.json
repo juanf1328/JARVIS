@@ -11,6 +11,10 @@
     {
       "entidad": "jarvis",
       "mensaje": "hola ZERO, saluda a fede"
+    },
+    {
+      "entidad": "jarvis",
+      "mensaje": "hola"
     }
   ]
 }

@@ -10,6 +10,7 @@ import CommandsPanel from "./panels/CommandsPanel";
 import HorusBackground from "./HorusBackground";
 import ZeroBackground from "./ZeroBackground";
 import AlfredBackground from "./AlfredBackground";
+import UltronBackground from "./UltronBackground";
 
 interface Message {
   role: "user" | "system";
@@ -26,6 +27,7 @@ const PERSONALIDADES: Record<string, { nombre: string; color: string }> = {
   zero: { nombre: "ZERO", color: "purple" }, // Verde ahora
   alfred: { nombre: "ALFRED", color: "pink" }, // Gris ahora
   horus: { nombre: "HORUS", color: "yellow" },
+  ultron: { nombre: "ULTRON", color: "red" }, // ✅ AGREGADO
 };
 
 function animarNombre(targetName: string, setNombre: (n: string) => void) {
@@ -85,11 +87,13 @@ export default function Hud({ onLogout }: HudProps) {
   const isHorus = identidadRef.current === "horus";
   const isZero = identidadRef.current === "zero";
   const isAlfred = identidadRef.current === "alfred";
+  const isUltron = identidadRef.current === "ultron";
 
   const getThemeClass = () => {
     if (isHorus) return "horus-theme";
     if (isZero) return "zero-theme";
     if (isAlfred) return "alfred-theme";
+    if (isUltron) return "ultron-theme";
     return "";
   };
 
@@ -97,6 +101,7 @@ export default function Hud({ onLogout }: HudProps) {
     if (isHorus) return "horus-grid";
     if (isZero) return "zero-grid";
     if (isAlfred) return "alfred-grid";
+    if (isUltron) return "ultron-grid";
     return "";
   };
 
@@ -104,6 +109,7 @@ export default function Hud({ onLogout }: HudProps) {
     if (isHorus) return "horus-radial";
     if (isZero) return "zero-radial";
     if (isAlfred) return "alfred-radial";
+    if (isUltron) return "ultron-radial";
     return "";
   };
 
@@ -116,6 +122,7 @@ export default function Hud({ onLogout }: HudProps) {
       {isHorus && <HorusBackground />}
       {isZero && <ZeroBackground />}
       {isAlfred && <AlfredBackground />}
+      {isUltron && <UltronBackground />}
 
       <div className="hud-content">
         {/* Header */}

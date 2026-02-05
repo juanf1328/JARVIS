@@ -10,6 +10,7 @@ const IDENTITY_COLORS: Record<string, string> = {
   zero: "purple",  // Será verde en CSS
   alfred: "pink",  // Será gris en CSS
   horus: "yellow",
+  ultron: "red",
 };
 
 export default function Panel({ title, color, children, identity = "jarvis" }: Props) {

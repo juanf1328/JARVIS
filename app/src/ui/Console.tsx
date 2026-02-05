@@ -17,6 +17,7 @@ export default function Console({ onSend, onResponseStart, onResponseChunk, onRe
     if (lower.startsWith("zero")) return "zero";
     if (lower.startsWith("alfred")) return "alfred";
     if (lower.startsWith("horus")) return "horus";
+    if (lower.startsWith("ultron")) return "ultron";
     return "jarvis";
   }
 
@@ -83,7 +84,7 @@ export default function Console({ onSend, onResponseStart, onResponseChunk, onRe
 
     const text = input;
     const identity = detectarIdentity(text);
-    const command = text.replace(/^(jarvis|zero|alfred|horus)\s*/i, "");
+    const command = text.replace(/^(jarvis|zero|alfred|horus|ultron)\s*/i, "");
 
     setInput("");
     onSend(text);
