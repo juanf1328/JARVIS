@@ -24,6 +24,10 @@
   --red-400: #f87171;
   --red-500: #ef4444;
   --red-600: #dc2626;
+  --silver-400: #cbd5e1;
+  --silver-500: #94a3b8;
+  --moon-blue: #9fcdff;
+  --moon-white: #e0f2fe;
 }
 
 * {
@@ -69,6 +73,11 @@ body {
   background: linear-gradient(135deg, #0a0604 0%, #1a0f08 50%, #0a0604 100%);
 }
 
+/* KHONSHU THEME - Moon Silver/Blue */
+.hud-container.khonshu-theme {
+  background: linear-gradient(135deg, #0a0d14 0%, #141b2e 50%, #0a0d14 100%);
+}
+
 /* ZERO THEME - Doctor Doom Green */
 .hud-container.zero-theme {
   background: linear-gradient(135deg, #022606 0%, #03440a 50%, #022606 100%);
@@ -79,9 +88,9 @@ body {
   background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
 }
 
-/* ULTRON THEME - Red Chaos */
+/* ULTRON THEME - Red/Violet Chaos */
 .hud-container.ultron-theme {
-  background: linear-gradient(135deg, #200000 0%, #3d0000 50%, #200000 100%);
+  background: linear-gradient(135deg, #1a0520 0%, #2d0a3d 50%, #1a0520 100%);
   font-family: 'Impact', 'Arial Black', sans-serif;
 }
 
@@ -106,6 +115,14 @@ body {
   opacity: 0.3;
 }
 
+.grid-background.khonshu-grid {
+  background-image: 
+    linear-gradient(rgba(159, 205, 255, 0.2) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(159, 205, 255, 0.2) 2px, transparent 2px);
+  background-size: 55px 55px;
+  opacity: 0.35;
+}
+
 .grid-background.zero-grid {
   background-image: 
     linear-gradient(rgba(34, 197, 94, 0.2) 2px, transparent 2px),
@@ -123,12 +140,8 @@ body {
 }
 
 .grid-background.ultron-grid {
-  background-image: 
-    linear-gradient(rgba(239, 68, 68, 0.3) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(239, 68, 68, 0.3) 2px, transparent 2px);
-  background-size: 45px 45px;
-  opacity: 0.4;
-  animation: gridGlitch 0.5s infinite;
+  background-image: none;
+  opacity: 1;
 }
 
 @keyframes gridGlitch {
@@ -175,6 +188,15 @@ body {
   );
 }
 
+.radial-overlay.khonshu-radial {
+  background: radial-gradient(
+    circle at center,
+    rgba(159, 205, 255, 0.25) 0%,
+    rgba(10, 13, 20, 0.9) 50%,
+    #000000 100%
+  );
+}
+
 .radial-overlay.zero-radial {
   background: radial-gradient(
     circle at center,
@@ -196,8 +218,8 @@ body {
 .radial-overlay.ultron-radial {
   background: radial-gradient(
     circle at center,
-    rgba(239, 68, 68, 0.4) 0%,
-    rgba(32, 0, 0, 0.95) 50%,
+    rgba(139, 92, 246, 0.3) 0%,
+    rgba(26, 5, 32, 0.95) 50%,
     #000000 100%
   );
 }
@@ -270,6 +292,23 @@ body {
     0 0 30px var(--gold-500),
     0 0 50px var(--gold-400);
 }
+.hud-title.silver { 
+  color: var(--moon-blue);
+  font-family: 'Papyrus', 'Courier New', serif;
+  text-shadow: 
+    0 0 15px var(--moon-white),
+    0 0 30px var(--silver-400),
+    0 0 50px var(--moon-blue);
+}
+.hud-title.red { 
+  color: var(--violet-400);
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  text-shadow: 
+    0 0 15px var(--violet-500),
+    0 0 30px var(--red-500),
+    0 0 50px var(--violet-400);
+  letter-spacing: 0.15em;
+}
 
 .status-indicator {
   width: 0.75rem;
@@ -334,6 +373,12 @@ body {
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
 }
 
+.panel.silver {
+  border-color: rgba(159, 205, 255, 0.4);
+  background-color: rgba(159, 205, 255, 0.08);
+  box-shadow: 0 0 20px rgba(159, 205, 255, 0.4);
+}
+
 .panel.pink {
   border-color: rgba(100, 100, 100, 0.4);
   background-color: rgba(60, 60, 60, 0.08);
@@ -353,9 +398,9 @@ body {
 }
 
 .panel.red {
-  border-color: rgba(239, 68, 68, 0.6);
-  background-color: rgba(239, 68, 68, 0.1);
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+  border-color: rgba(139, 92, 246, 0.5);
+  background-color: rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
 }
 
 /* HORUS PANELS */
@@ -404,9 +449,13 @@ body {
   color: var(--gold-400);
 }
 
+.panel.silver .panel-title {
+  color: var(--moon-blue);
+}
+
 .panel.red .panel-title {
-  color: var(--red-500);
-  text-shadow: 0 0 10px var(--red-600);
+  color: var(--violet-400);
+  text-shadow: 0 0 10px var(--violet-500);
   font-family: 'Impact', 'Arial Black', sans-serif;
   font-weight: 900;
 }
@@ -416,6 +465,13 @@ body {
   color: var(--gold-400);
   letter-spacing: 0.3em;
   text-shadow: 0 0 10px var(--gold-500);
+}
+
+.panel-title.khonshu-text {
+  font-family: 'Papyrus', 'Courier New', serif;
+  color: var(--moon-blue);
+  letter-spacing: 0.3em;
+  text-shadow: 0 0 10px var(--silver-400);
 }
 
 .panel-body {
@@ -437,8 +493,12 @@ body {
   color: rgba(251, 191, 36, 0.8);
 }
 
+.panel.silver .panel-body {
+  color: rgba(159, 205, 255, 0.8);
+}
+
 .panel.red .panel-body {
-  color: rgba(248, 113, 113, 0.9);
+  color: rgba(192, 132, 252, 0.9);
   font-family: 'Courier New', monospace;
   font-weight: 600;
 }
@@ -463,6 +523,13 @@ body {
   height: 2px;
   opacity: 0.6;
   animation: scan 4s linear infinite;
+}
+
+.scan-line.khonshu-scan {
+  background: linear-gradient(to right, transparent, var(--moon-blue), transparent);
+  height: 2px;
+  opacity: 0.6;
+  animation: scan 3.5s linear infinite;
 }
 
 /* ========================================
@@ -521,11 +588,11 @@ body {
 }
 
 .terminal-message.system.purple {
-  color: var(--purple-400);
+  color: var(--green-400);
 }
 
 .terminal-message.system.pink {
-  color: var(--pink-400);
+  color: var(--gray-400);
 }
 
 .terminal-message.system.blue {
@@ -536,10 +603,14 @@ body {
   color: var(--gold-400);
 }
 
+.terminal-message.system.silver {
+  color: var(--moon-blue);
+}
+
 .terminal-message.system.red {
-  color: var(--red-500);
+  color: var(--violet-400);
   font-weight: 700;
-  text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+  text-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
 }
 
 /* ========================================

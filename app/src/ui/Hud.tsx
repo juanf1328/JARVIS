@@ -7,7 +7,9 @@ import NetworkPanel from "./panels/NetworkPanel";
 import ProcessPanel from "./panels/ProcessPanel";
 import NotesPanel from "./panels/NotesPanel";
 import CommandsPanel from "./panels/CommandsPanel";
+import JarvisBackground from "./JarvisBackground";
 import HorusBackground from "./HorusBackground";
+import KhonshuBackground from "./KhonshuBackground";
 import ZeroBackground from "./ZeroBackground";
 import AlfredBackground from "./AlfredBackground";
 import UltronBackground from "./UltronBackground";
@@ -24,10 +26,11 @@ interface HudProps {
 
 const PERSONALIDADES: Record<string, { nombre: string; color: string }> = {
   jarvis: { nombre: "JARVIS", color: "cyan" },
-  zero: { nombre: "ZERO", color: "purple" }, // Verde ahora
-  alfred: { nombre: "ALFRED", color: "pink" }, // Gris ahora
+  zero: { nombre: "ZERO", color: "purple" },
+  alfred: { nombre: "ALFRED", color: "pink" },
   horus: { nombre: "HORUS", color: "yellow" },
-  ultron: { nombre: "ULTRON", color: "red" }, // ✅ AGREGADO
+  khonshu: { nombre: "KHONSHU", color: "silver" },
+  ultron: { nombre: "ULTRON", color: "red" },
 };
 
 function animarNombre(targetName: string, setNombre: (n: string) => void) {
@@ -84,13 +87,16 @@ export default function Hud({ onLogout }: HudProps) {
   }, [messages, streamingMessage]);
 
   const currentPersonality = PERSONALIDADES[identidadRef.current];
+  const isJarvis = identidadRef.current === "jarvis";
   const isHorus = identidadRef.current === "horus";
+  const isKhonshu = identidadRef.current === "khonshu";
   const isZero = identidadRef.current === "zero";
   const isAlfred = identidadRef.current === "alfred";
   const isUltron = identidadRef.current === "ultron";
 
   const getThemeClass = () => {
     if (isHorus) return "horus-theme";
+    if (isKhonshu) return "khonshu-theme";
     if (isZero) return "zero-theme";
     if (isAlfred) return "alfred-theme";
     if (isUltron) return "ultron-theme";
@@ -99,6 +105,7 @@ export default function Hud({ onLogout }: HudProps) {
 
   const getGridClass = () => {
     if (isHorus) return "horus-grid";
+    if (isKhonshu) return "khonshu-grid";
     if (isZero) return "zero-grid";
     if (isAlfred) return "alfred-grid";
     if (isUltron) return "ultron-grid";
@@ -107,6 +114,7 @@ export default function Hud({ onLogout }: HudProps) {
 
   const getRadialClass = () => {
     if (isHorus) return "horus-radial";
+    if (isKhonshu) return "khonshu-radial";
     if (isZero) return "zero-radial";
     if (isAlfred) return "alfred-radial";
     if (isUltron) return "ultron-radial";
@@ -119,7 +127,9 @@ export default function Hud({ onLogout }: HudProps) {
       <div className={`radial-overlay ${getRadialClass()}`} />
       
       {/* Fondos animados por identidad */}
+      {isJarvis && <JarvisBackground />}
       {isHorus && <HorusBackground />}
+      {isKhonshu && <KhonshuBackground />}
       {isZero && <ZeroBackground />}
       {isAlfred && <AlfredBackground />}
       {isUltron && <UltronBackground />}

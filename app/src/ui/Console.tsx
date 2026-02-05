@@ -17,6 +17,7 @@ export default function Console({ onSend, onResponseStart, onResponseChunk, onRe
     if (lower.startsWith("zero")) return "zero";
     if (lower.startsWith("alfred")) return "alfred";
     if (lower.startsWith("horus")) return "horus";
+    if (lower.startsWith("khonshu")) return "khonshu";
     if (lower.startsWith("ultron")) return "ultron";
     return "jarvis";
   }

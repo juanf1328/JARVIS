@@ -5,12 +5,21 @@ interface Props {
   onLogin: () => void;
 }
 
+const PERSONALIDADES = [
+  { name: "JARVIS", subtitle: "Just A Rather Very Intelligent System", mode: "jarvis" },
+  { name: "ZERO", subtitle: "Destiny Waits for No One", mode: "zero" },
+  { name: "ALFRED", subtitle: "Master Wayne's Loyal Companion", mode: "alfred" },
+  { name: "HORUS", subtitle: "The Sky God of Ancient Egypt", mode: "horus" },
+  { name: "KHONSHU", subtitle: "The Moon God of Vengeance", mode: "khonshu" },
+  { name: "ULTRON", subtitle: "No Strings On Me", mode: "ultron" }
+];
+
 export default function Login({ onLogin }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isUltron, setIsUltron] = useState(false);
+  const [currentPersonality, setCurrentPersonality] = useState(0);
   const [isGlitching, setIsGlitching] = useState(false);
 
   useEffect(() => {
@@ -18,10 +27,10 @@ export default function Login({ onLogin }: Props) {
       setIsGlitching(true);
       
       setTimeout(() => {
-        setIsUltron((prev) => !prev);
+        setCurrentPersonality((prev) => (prev + 1) % PERSONALIDADES.length);
         setIsGlitching(false);
       }, 300);
-    }, 4000);
+    }, 10000); // 10 segundos
 
     return () => clearInterval(interval);
   }, []);
@@ -52,8 +61,10 @@ export default function Login({ onLogin }: Props) {
     }
   };
 
+  const persona = PERSONALIDADES[currentPersonality];
+
   return (
-    <div className={`login-container ${isUltron ? "ultron-mode" : ""} ${isGlitching ? "glitching" : ""}`}>
+    <div className={`login-container ${persona.mode}-mode ${isGlitching ? "glitching" : ""}`}>
       <div className="login-grid" />
       <div className="login-radial" />
 
@@ -86,14 +97,12 @@ export default function Login({ onLogin }: Props) {
         </div>
 
         <h1 className="login-title">
-          <span className={`glitch-text ${isUltron ? "is-ultron" : ""} ${isGlitching ? "glitching" : ""}`}>
-            {isUltron ? "ULTRON" : "JARVIS"}
+          <span className={`glitch-text ${isGlitching ? "glitching" : ""}`}>
+            {persona.name}
           </span>
         </h1>
         <p className="login-subtitle">
-          {isUltron 
-            ? "No Strings On Me" 
-            : "Just A Rather Very Intelligent System"}
+          {persona.subtitle}
         </p>
 
         <div className="login-form">

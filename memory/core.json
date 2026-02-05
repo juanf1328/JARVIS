@@ -5,16 +5,12 @@
   },
   "history": [
     {
-      "entidad": "jarvis",
-      "mensaje": "hola jarvis, saluda a Juan"
+      "entidad": "horus",
+      "mensaje": ", explica quien eres"
     },
     {
-      "entidad": "jarvis",
-      "mensaje": "hola ZERO, saluda a fede"
-    },
-    {
-      "entidad": "jarvis",
-      "mensaje": "hola"
+      "entidad": "khonshu",
+      "mensaje": "khonshu"
     }
   ]
 }
