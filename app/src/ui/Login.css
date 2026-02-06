@@ -1216,3 +1216,164 @@
     height: 140px;
   }
 }
+/* ========================================
+   LOGOS ESPECÍFICOS POR PERSONALIDAD
+   ======================================== */
+
+/* Horus Logo - Jeroglíficos egipcios */
+.horus-logo {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horus-svg {
+  width: 100%;
+  height: 100%;
+  color: #fbbf24;
+  filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.5));
+}
+
+.eye-of-horus {
+  animation: horusGlow 3s ease-in-out infinite;
+}
+
+.sun-rays {
+  animation: horusRotate 20s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes horusGlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes horusRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Khonshu Logo - Luna creciente */
+.khonshu-logo {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.khonshu-svg {
+  width: 100%;
+  height: 100%;
+  color: #e5e7eb;
+  filter: drop-shadow(0 0 20px rgba(229, 231, 235, 0.6));
+  --bg-color: #0f172a;
+}
+
+.crescent-moon {
+  animation: khonshuPulse 4s ease-in-out infinite;
+}
+
+.stars {
+  animation: starsTwinkle 2s ease-in-out infinite;
+}
+
+@keyframes khonshuPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+@keyframes starsTwinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Zero Logo - Código binario */
+.zero-logo {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zero-svg {
+  width: 100%;
+  height: 100%;
+  color: #a855f7;
+  filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.5));
+}
+
+.digital-circle {
+  animation: zeroGlitch 5s ease-in-out infinite;
+}
+
+.binary-orbit {
+  animation: binaryFloat 3s ease-in-out infinite;
+}
+
+@keyframes zeroGlitch {
+  0%, 90%, 100% { opacity: 1; transform: translate(0, 0); }
+  92% { opacity: 0.8; transform: translate(-2px, 2px); }
+  94% { opacity: 0.9; transform: translate(2px, -2px); }
+  96% { opacity: 0.85; transform: translate(-1px, -1px); }
+}
+
+@keyframes binaryFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Alfred Logo - Escudo de murciélago */
+.alfred-logo {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alfred-svg {
+  width: 100%;
+  height: 100%;
+  color: #ec4899;
+  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.5));
+}
+
+.bat-shield {
+  animation: alfredPulse 3s ease-in-out infinite;
+}
+
+@keyframes alfredPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+/* Ultron Reactor - Variante oscura del Arc Reactor */
+.ultron-reactor .arc-core {
+  background: radial-gradient(circle, #ef4444 0%, #991b1b 100%);
+  box-shadow: 0 0 30px #ef4444, 0 0 60px #dc2626, inset 0 0 20px #7f1d1d;
+}
+
+.ultron-reactor .arc-ring {
+  border-color: #dc2626;
+  box-shadow: 0 0 10px #ef4444;
+}
+
+.ultron-reactor .arc-segment {
+  background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
+  box-shadow: 0 0 15px #ef4444;
+}
+
+/* Ajustes responsivos para todos los logos */
+@media (max-width: 768px) {
+  .horus-logo,
+  .khonshu-logo,
+  .zero-logo,
+  .alfred-logo {
+    width: 150px;
+    height: 150px;
+  }
+}

@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
 import "./Login.css";
+import { 
+  ArcReactorLogo, 
+  HorusLogo, 
+  KhonshuLogo, 
+  ZeroLogo, 
+  AlfredLogo, 
+  UltronLogo 
+} from "./PersonalityLogos";
 
 interface Props {
   onLogin: () => void;
@@ -76,24 +84,12 @@ export default function Login({ onLogin }: Props) {
 
       <div className="login-content">
         <div className="login-logo">
-          <div className="arc-reactor">
-            <div className="arc-core" />
-            <div className="arc-ring arc-ring-1">
-              <div className="arc-segment arc-segment-1" />
-              <div className="arc-segment arc-segment-2" />
-              <div className="arc-segment arc-segment-3" />
-            </div>
-            <div className="arc-ring arc-ring-2">
-              <div className="arc-segment arc-segment-1" />
-              <div className="arc-segment arc-segment-2" />
-              <div className="arc-segment arc-segment-3" />
-            </div>
-            <div className="arc-ring arc-ring-3">
-              <div className="arc-segment arc-segment-1" />
-              <div className="arc-segment arc-segment-2" />
-              <div className="arc-segment arc-segment-3" />
-            </div>
-          </div>
+          {persona.mode === "jarvis" && <ArcReactorLogo />}
+          {persona.mode === "ultron" && <UltronLogo />}
+          {persona.mode === "horus" && <HorusLogo />}
+          {persona.mode === "khonshu" && <KhonshuLogo />}
+          {persona.mode === "zero" && <ZeroLogo />}
+          {persona.mode === "alfred" && <AlfredLogo />}
         </div>
 
         <h1 className="login-title">
