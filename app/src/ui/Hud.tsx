@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import Console from "./Console";
-import Panel from "./Panel";
 import DiagnosticPanel from "./panels/DiagnosticPanel";
 import EnergyPanel from "./panels/EnergyPanel";
 import NetworkPanel from "./panels/NetworkPanel";
@@ -66,7 +65,7 @@ function animarNombre(targetName: string, setNombre: (n: string) => void) {
     frame++;
     const display = targetName
       .split("")
-      .map((c, i) =>
+      .map((c) =>  // ← Elimina el parámetro 'i' ya que no lo usas
         Math.random() < frame / totalFrames ? c : chars[Math.floor(Math.random() * chars.length)]
       )
       .join("");

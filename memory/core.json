@@ -5,12 +5,8 @@
   },
   "history": [
     {
-      "entidad": "horus",
-      "mensaje": ", explica quien eres"
-    },
-    {
-      "entidad": "khonshu",
-      "mensaje": "khonshu"
+      "entidad": "jarvis",
+      "mensaje": "hola jarvis"
     }
   ]
 }
