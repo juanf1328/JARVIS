@@ -13,7 +13,7 @@ app.use(express.json());
 // ============================
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
-const GROQ_MODEL = "llama-3.1-70b-versatile";
+const GROQ_MODEL = "llama3-8b-8192";
 
 // ============================
 // 📚 WIKIPEDIA API
