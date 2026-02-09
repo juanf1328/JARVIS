@@ -185,65 +185,49 @@ Respuestas calculadas y superiores.`,
 // ============================
 
 async function llamarGroq(prompt) {
-  const data = JSON.stringify({
-    model: GROQ_MODEL,
-    messages: [
-      {
-        role: "system",
-        content: "Eres un asistente de IA con múltiples personalidades. Mantén respuestas concisas."
-      },
-      {
-        role: "user",
-        content: prompt
-      }
-    ],
-    temperature: 0.7,
-    max_tokens: 500,
-  });
+  if (!process.env.GROQ_API_KEY) {
+    throw new Error("GROQ_API_KEY no está definida en el entorno");
+  }
 
-  return new Promise((resolve, reject) => {
-    const options = {
-      hostname: 'api.groq.com',
-      path: '/openai/v1/chat/completions',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
-        'Content-Length': data.length
-      }
-    };
-
-    const req = https.request(options, (res) => {
-      let responseData = '';
-
-      res.on('data', (chunk) => {
-        responseData += chunk;
-      });
-
-      res.on('end', () => {
-        try {
-          const json = JSON.parse(responseData);
-          if (json.choices && json.choices[0]) {
-            resolve(json.choices[0].message.content);
-          } else if (json.error) {
-            reject(new Error(json.error.message || 'Error de Groq API'));
-          } else {
-            reject(new Error('Respuesta inválida de Groq'));
-          }
-        } catch (err) {
-          reject(err);
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: GROQ_MODEL,
+      messages: [
+        {
+          role: "system",
+          content: "Eres un asistente de IA con múltiples personalidades. Mantén respuestas concisas."
+        },
+        {
+          role: "user",
+          content: prompt
         }
-      });
-    });
-
-    req.on('error', (error) => {
-      reject(error);
-    });
-
-    req.write(data);
-    req.end();
+      ],
+      temperature: 0.7,
+      max_tokens: 500
+    })
   });
+
+  const text = await res.text();
+
+  if (!res.ok) {
+    console.error("❌ GROQ RAW RESPONSE:", text);
+    throw new Error(`Groq ${res.status}: ${text}`);
+  }
+
+  const json = JSON.parse(text);
+
+  if (!json.choices || !json.choices[0]) {
+    throw new Error("Respuesta inválida de Groq");
+  }
+
+  return json.choices[0].message.content;
 }
+
 
 // ============================
 // 🧠 CEREBRO PRINCIPAL
