@@ -16,3 +16,5 @@ Thumbs.db
 # Memory folder
 memory/
 *.json
+
+.env

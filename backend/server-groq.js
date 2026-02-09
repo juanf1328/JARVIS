@@ -11,10 +11,9 @@ app.use(express.json());
 // ============================
 // 🤖 CONFIGURACIÓN DE IA
 // ============================
-// Groq es GRATIS y muy rápido
-// Obtén tu API key en: https://console.groq.com/keys
-const GROQ_API_KEY = process.env.GROQ_API_KEY || "TU_API_KEY_AQUI";
-const GROQ_MODEL = "llama-3.1-70b-versatile"; // Modelo gratis potente
+
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GROQ_MODEL = "llama-3.1-70b-versatile";
 
 // ============================
 // 📚 WIKIPEDIA API
@@ -114,7 +113,7 @@ let memoria = {
 };
 
 // En producción usaremos memoria en RAM (se reinicia)
-// Puedes usar MongoDB Atlas gratis para persistencia real
+// MongoDB Atlas?
 
 function guardarMemoria(nuevaMemoria) {
   memoria = nuevaMemoria;
