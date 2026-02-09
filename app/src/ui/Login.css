@@ -1227,6 +1227,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
 .horus-svg {
@@ -1234,6 +1235,7 @@
   height: 100%;
   color: #fbbf24;
   filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.5));
+  display: block;
 }
 
 .eye-of-horus {
@@ -1262,6 +1264,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
 .khonshu-svg {
@@ -1270,6 +1273,7 @@
   color: #e5e7eb;
   filter: drop-shadow(0 0 20px rgba(229, 231, 235, 0.6));
   --bg-color: #0f172a;
+  display: block;
 }
 
 .crescent-moon {
@@ -1376,4 +1380,13 @@
     width: 150px;
     height: 150px;
   }
+}
+
+/* Fix centrado general de logos */
+.login-logo {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 2rem auto !important;
 }

@@ -7,6 +7,10 @@
     {
       "entidad": "jarvis",
       "mensaje": "hola jarvis"
+    },
+    {
+      "entidad": "jarvis",
+      "mensaje": "hola, quien fue nikola tesla? busca en wikipedia"
     }
   ]
 }

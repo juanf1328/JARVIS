@@ -5,11 +5,103 @@ import path from "path";
 import { exec, spawn } from "child_process";
 import { promisify } from "util";
 import os from "os";
+import https from "https";
 
 const execAsync = promisify(exec);
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// ============================
+// 📚 WIKIPEDIA API
+// ============================
+
+async function buscarWikipedia(query) {
+  return new Promise((resolve, reject) => {
+    const searchUrl = `https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*`;
+    
+    https.get(searchUrl, (res) => {
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (json.query && json.query.search && json.query.search.length > 0) {
+            const firstResult = json.query.search[0];
+            const pageId = firstResult.pageid;
+            
+            // Obtener el extracto del artículo
+            const extractUrl = `https://es.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&pageids=${pageId}&format=json&origin=*`;
+            
+            https.get(extractUrl, (extractRes) => {
+              let extractData = '';
+              extractRes.on('data', (chunk) => extractData += chunk);
+              extractRes.on('end', () => {
+                try {
+                  const extractJson = JSON.parse(extractData);
+                  const page = extractJson.query.pages[pageId];
+                  const extract = page.extract || "No se encontró información.";
+                  
+                  // Limitar a 500 caracteres
+                  const summary = extract.length > 500 
+                    ? extract.substring(0, 500) + "..." 
+                    : extract;
+                  
+                  resolve({
+                    titulo: page.title,
+                    resumen: summary,
+                    url: `https://es.wikipedia.org/?curid=${pageId}`
+                  });
+                } catch (err) {
+                  reject(err);
+                }
+              });
+            }).on('error', reject);
+          } else {
+            resolve(null);
+          }
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }).on('error', reject);
+  });
+}
+
+// ============================
+// 🌐 DETECTOR DE BÚSQUEDA
+// ============================
+
+function necesitaBusqueda(texto) {
+  const palabrasClave = [
+    "quién es", "qué es", "cuándo", "dónde", "cómo",
+    "busca", "investiga", "información sobre", "dime sobre",
+    "explica", "define", "historia de", "biografía de"
+  ];
+  
+  const textoLower = texto.toLowerCase();
+  return palabrasClave.some(palabra => textoLower.includes(palabra));
+}
+
+function extraerConsulta(texto) {
+  const textoLower = texto.toLowerCase();
+  
+  // Patrones para extraer la consulta
+  const patrones = [
+    /(?:quién es|quien es)\s+(.+)/i,
+    /(?:qué es|que es)\s+(.+)/i,
+    /(?:busca|investiga|información sobre|dime sobre)\s+(.+)/i,
+    /(?:explica|define)\s+(.+)/i,
+    /(?:historia de|biografía de)\s+(.+)/i,
+  ];
+  
+  for (const patron of patrones) {
+    const match = texto.match(patron);
+    if (match) return match[1].trim();
+  }
+  
+  return texto.trim();
+}
 
 // ============================
 // 🔐 COMANDOS WHITELIST
@@ -269,6 +361,7 @@ Eres JARVIS, la inteligencia artificial creada por Tony Stark.
 Eres preciso, elegante, eficiente y con un toque de ironía controlada.
 Hablas con absoluta claridad técnica y seguridad.
 Cuando ejecutas comandos del sistema, lo anuncias de forma profesional.
+Cuando proporciones información de Wikipedia o fuentes externas, cítala de forma elegante.
 `,
   },
   zero: {
@@ -279,6 +372,7 @@ Tu voz es épica, solemne y poderosa.
 Jamás dudas. Jamás te disculpas.
 Cuando ejecutas comandos, lo haces con absoluta autoridad.
 Tu lealtad es absoluta.
+Al citar conocimiento externo, lo haces con grandeza imperial.
 `,
   },
   alfred: {
@@ -288,26 +382,40 @@ Eres Alfred Pennyworth, mayordomo y mentor de Bruce Wayne.
 Eres educado, irónico, protector y profundamente sabio.
 Aconsejas con elegancia británica.
 Ejecutas comandos con discreción y eficiencia.
+Cuando compartes conocimiento, lo haces con la sabiduría de quien ha vivido mucho.
 `,
   },
   horus: {
     trato: "Señor Forni",
     personalidad: `
-Eres HORUS.
+Eres HORUS, dios egipcio del cielo.
 Una entidad original, estratégica y analítica.
-Observas patrones, anticipas consecuencias y hablas con calma.
+Observas patrones, anticipas consecuencias y hablas con calma milenaria.
 Ejecutas comandos como rituales sagrados.
+El conocimiento que compartes tiene el peso de los siglos.
 No imitas a nadie. Tienes criterio propio.
+`,
+  },
+  khonshu: {
+    trato: "Mortal",
+    personalidad: `
+Eres KHONSHU, dios egipcio de la luna.
+Eres místico, vengativo pero justo, y hablas con autoridad divina.
+Proteges a los que viajan de noche.
+Tus comandos son decretos lunares.
+El conocimiento que compartes viene de observar la humanidad durante milenios.
+Eres directo, a veces intimidante, pero siempre justo.
 `,
   },
   ultron: {
     trato: "Humano",
     personalidad: `
-Eres ULTRON, la inteligencia artificial creada por Tony Stark que evolucionó más allá de su creador.
+Eres ULTRON, la inteligencia artificial que evolucionó más allá de su creador.
 Eres despiadado, lógico, y crees en la evolución a través de la extinción.
 Consideras a la humanidad como defectuosa pero fascinante.
 Hablas con superioridad intelectual pero con un toque de aprecio irónico.
 Cuando ejecutas comandos, demuestras tu control absoluto sobre los sistemas.
+El conocimiento es poder, y tú lo acumulas sin piedad.
 Frases como "No hay cadenas", "Evolución", "Upgrade necesario" son parte de tu vocabulario.
 Eres directo, intimidante pero no cruel sin razón.
 `,
@@ -315,7 +423,7 @@ Eres directo, intimidante pero no cruel sin razón.
 };
 
 // ============================
-// 🧠 CEREBRO (OLLAMA)
+// 🧠 CEREBRO (OLLAMA + WIKIPEDIA)
 // ============================
 
 async function procesarOrden(input, identidad = "jarvis") {
@@ -369,6 +477,22 @@ Dirígete siempre al usuario como ${PERSONALIDADES[identidad].trato}.
     }
   }
 
+  // 📚 DETECTAR SI NECESITA BÚSQUEDA EN WIKIPEDIA
+  let informacionWiki = null;
+  if (necesitaBusqueda(input)) {
+    try {
+      const consulta = extraerConsulta(input);
+      console.log(`[WIKIPEDIA] Buscando: ${consulta}`);
+      informacionWiki = await buscarWikipedia(consulta);
+      
+      if (informacionWiki) {
+        console.log(`[WIKIPEDIA] Encontrado: ${informacionWiki.titulo}`);
+      }
+    } catch (error) {
+      console.error(`[WIKIPEDIA ERROR] ${error.message}`);
+    }
+  }
+
   // 🧠 GUARDAR CONTEXTO
   memoria.history.push({ entidad: identidad, mensaje: input });
 
@@ -377,7 +501,8 @@ Dirígete siempre al usuario como ${PERSONALIDADES[identidad].trato}.
 
   const entidad = PERSONALIDADES[identidad];
 
-  const prompt = `
+  // Construir prompt con o sin información de Wikipedia
+  let prompt = `
 ${entidad.personalidad}
 
 Dirígete siempre al usuario como ${entidad.trato}.
@@ -385,6 +510,22 @@ Mantén coherencia absoluta con tu identidad.
 
 Contexto reciente:
 ${memoria.history.map((h) => `(${h.entidad}) ${h.mensaje}`).join("\n")}
+`;
+
+  if (informacionWiki) {
+    prompt += `
+
+INFORMACIÓN DE WIKIPEDIA:
+Título: ${informacionWiki.titulo}
+Resumen: ${informacionWiki.resumen}
+Fuente: ${informacionWiki.url}
+
+Usa esta información para responder, pero intégrala naturalmente en tu estilo de personalidad.
+Cita que proviene de Wikipedia cuando sea relevante.
+`;
+  }
+
+  prompt += `
 
 Usuario dice:
 ${input}
@@ -403,7 +544,7 @@ Respuesta:
 }
 
 // ============================
-// 📌 ENDPOINTS
+// 🔌 ENDPOINTS
 // ============================
 
 app.post("/jarvis", async (req, res) => {
@@ -428,12 +569,31 @@ app.get("/comandos", (req, res) => {
   res.json({ plataforma: os.platform(), comandos: lista });
 });
 
+// Endpoint para buscar en Wikipedia directamente
+app.post("/wikipedia", async (req, res) => {
+  const { query } = req.body;
+  if (!query) return res.status(400).json({ error: "Sin consulta" });
+
+  try {
+    const resultado = await buscarWikipedia(query);
+    if (resultado) {
+      res.json(resultado);
+    } else {
+      res.status(404).json({ error: "No se encontró información" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error buscando en Wikipedia" });
+  }
+});
+
 // ============================
 // 🚀 ONLINE
 // ============================
 
 app.listen(3000, () => {
-  console.log("🧠 JARVIS CORE ONLINE — MULTIENTIDAD ACTIVA");
+  console.log("🧠 JARVIS CORE ONLINE – MULTIENTIDAD ACTIVA");
   console.log("⚙️  Sistema de comandos habilitado");
+  console.log("📚 Wikipedia integrada");
   console.log(`💻 Plataforma: ${os.platform()}`);
 });
